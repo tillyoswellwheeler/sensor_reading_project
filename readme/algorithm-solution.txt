@@ -1,0 +1,53 @@
+1) Defining the Main Problem Statement
+Write a programme that reads the sensor records from a mySQL database transforms the data into JSON and exposes it as an api via https interface. 
+Then create a terraform deployment script which automates the AWS resources in a production CI/CD data pipeline to deliver the api requests to the client.
+
+2) Defining Diagram
+
+-----------------------------------------------------------------------------
+    INPUTS                  PROCESSING                  OUTPUTS
+-----------------------------------------------------------------------------
+    db_config               Read db_config params       sensor_json
+    sensor data             Read sensor records         http_interface
+    sensor records         Read readings records        docker image
+    -id                    Select sensor details        docker registry url
+    -unit                   Return sensor-json details  terraform template
+    -range_l
+    -range_u                Docker build programme
+    -longitude              Docker register programme
+    -latitude               
+    -name                   Compose Terraform template
+
+    readings records
+    -id
+    -box_id
+    -sensor_id
+    -reading_ts
+-----------------------------------------------------------------------------
+
+SUB PROBLEMS
+->HTTP app: 
+    - read db_config as yaml
+        >create yaml file
+        >create config class
+        >instantiating the DBConfig class in the driver file
+    - code up falcon api framework
+        >connect to AWS RDS mySQL instance
+        >read selected records
+        >create sql query needed
+        >create get falcon function
+        >param the sql query for falcon
+        >return json of sql query
+    - implement signature required (http://localhost:8000/readings/<box_id>/<from_date>/<to_date>)
+-> CI/CD/Docker:
+    - create Dockerfile
+        >docker image requires: Nginx, python using alpine
+    - add docker image to docker registry
+    - note down docker image registry url
+    - Terraform template    
+        >docker image url
+        >ec2 t2micro machine
+        >VPC defaults
+        >S3 bucket for backups
+        >IAM permissions
+

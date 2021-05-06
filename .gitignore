@@ -1,0 +1,9 @@
+.venv/
+.terraform/
+__pycache__/
+start_script.sh
+terraform.tfstate
+terraform.tfstate.backup
+.terraform.lock.hcl
+db_config.yaml
+.DS_Store
