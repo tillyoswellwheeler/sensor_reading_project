@@ -7,3 +7,6 @@ terraform.tfstate.backup
 .terraform.lock.hcl
 db_config.yaml
 .DS_Store
+.vscode/
+sensor_reader.code-workspace
+sensor_venv/

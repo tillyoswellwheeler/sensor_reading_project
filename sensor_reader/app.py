@@ -1,8 +1,8 @@
 import falcon
 import json
 
-from .config import DBConfig
-from .db import Database
+from config import DBConfig
+from db import Database
 
 
 db_config = DBConfig('db_config.yaml')
@@ -20,8 +20,18 @@ class ReadingsResource(object):
         resp.text = json.dumps(result, indent=4, sort_keys=True, default=str)
         resp.status = falcon.HTTP_200
 
+class AllResource(object):
+    def on_get(self, req, resp):
+        result = db.get_all()
+        resp.text = json.dumps(result, indent=4, sort_keys=True, default=str)
+        resp.status = falcon.HTTP_200
+
+
+# print(db.get_reading("pwzaAJIrXnGnmlID6niS", "2021-05-01","2021-05-03"))
+print(db.get_all())
 
 app = application = falcon.App()
 
 readings = ReadingsResource()
 app.add_route('/readings/{box_id}/{from_date}/{to_date}', readings)
+

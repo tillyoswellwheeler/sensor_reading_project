@@ -77,3 +77,50 @@ class Database:
             # make this more generic? don't know if invalid datetimes will raise issues
         self.__disconnect__()
         return result
+    
+    def get_all(self):
+        self.__connect__()
+        # IS this safer?
+        # params = {
+        #     'box_id': box_id,
+        #     'from_date': from_date,
+        #     'to_date': to_date
+        # }
+        # query = '''
+        # SELECT box_id, sensor_id, name, unit, reading, reading_ts
+        # FROM test_db.readings
+        # RIGHT JOIN test_db.readings ON sensors.id = readings.box_id
+        # WHERE DATE(reading_ts) BETWEEN (%(from_date)s AND %(to_date)s)
+        # AND box_id = %(box_id)s"
+        # '''
+        # self.cursor.execute(query, params)
+
+        query = """
+        SELECT
+        box_id,
+        sensor_id,
+        name,
+        unit,
+        reading,
+        reading_ts
+        FROM
+        test_db.sensors
+        LEFT JOIN test_db.readings ON sensors.id = readings.box_id
+        GROUP BY
+        box_id,
+        sensor_id,
+        name,
+        unit,
+        reading,
+        reading_ts;
+        """
+
+        self.cursor.execute(query)
+        result = self.cursor.fetchall()
+        if not result:
+            self.__disconnect__()
+            # raise InvalidParameter("NBox ID value not in database.")
+            # make this more generic? don't know if invalid datetimes will raise issues
+        self.__disconnect__()
+        return result
+
