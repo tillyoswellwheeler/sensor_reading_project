@@ -30,7 +30,7 @@ class Database:
 
     def get_reading(self, box_id, from_date, to_date):
         self.__connect__()
-        # I THINK THIS IS A SLIGHTLY SAFER WAY TO FORMAT THE QUERY - COULDN'T GET IT TO WORK BUT MAYBE TRY AGAIN IF YOU HAVE TIME!
+        # IS this safer?
         # params = {
         #     'box_id': box_id,
         #     'from_date': from_date,
