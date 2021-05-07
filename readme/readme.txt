@@ -12,6 +12,7 @@ Public IP = http://<ec2-instance-public-ip>
 App Run
 ----
 Connect to ec2
+cd to /home directory to find the sensor_app_project
 docker build #these two steps keep being denied by the ec2 instance on my aws account 
 docker run #these two steps keep being denied by the ec2 instance on my aws account
 
