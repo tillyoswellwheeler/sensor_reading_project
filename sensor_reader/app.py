@@ -27,9 +27,6 @@ class AllResource(object):
         resp.status = falcon.HTTP_200
 
 
-# print(db.get_reading("pwzaAJIrXnGnmlID6niS", "2021-05-01","2021-05-03"))
-print(db.get_all())
-
 app = application = falcon.App()
 
 readings = ReadingsResource()
