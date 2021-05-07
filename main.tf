@@ -159,43 +159,13 @@ resource "aws_iam_role" "ec2-role" {
 }
 
 
-# Create EC2 Instance Profile
-resource "aws_iam_instance_profile" "ec2-profile" {
-    name = "ec2-profile"
-    role = aws_iam_role.ec2-role.name
-}
+# # Create EC2 Instance Profile
+# resource "aws_iam_instance_profile" "ec2-profile" {
+#     name = "ec2-profile"
+#     role = aws_iam_role.ec2-role.name
+# }
 
 # # Adding IAM Policies to give full access to S3 bucket
-# resource "aws_iam_role_policy" "ec2-policy" {
-#     name = "ec2-policy"
-#     role = aws_iam_role.ec2-role.id
-
-#     policy = <<EOF
-#     {
-#     "Version": "2012-10-17",
-#     "Statement": [
-#     {
-#         "Action": [
-#         "s3:*"
-#         ],
-#         "Effect": "Allow",
-#         "Resource": "*"
-#     }
-#     ]
-#     }
-#     EOF
-# }
-
-# # 10.# Create an s3 bucket 
-# resource "aws_s3_bucket" "falcon-app-bucket" {
-#   bucket = "falcon-app"
-#   acl    = "private"
-
-#   tags = {
-#     Name        = "falcon-app-bucket"
-#     Environment = "dev"
-#   }
-# }
 
 # 11. Create Ubuntu server and install/enable apache2 and docker
 
@@ -203,7 +173,7 @@ resource "aws_instance" "falcon-web-server" {
     ami = "ami-0d5eff06f840b45e9"
     instance_type = "t2.micro"
     availability_zone = "us-east-1a" #need to hard code availibity zone so that your ec2 instance is created in the same availability zone as the subnet you create
-    iam_instance_profile = aws_iam_instance_profile.ec2-profile.name
+    # iam_instance_profile = aws_iam_instance_profile.ec2-profile.name
     key_name = "dev-key-east"
     
     network_interface {
@@ -217,7 +187,9 @@ resource "aws_instance" "falcon-web-server" {
                 sudo amazon-linux-extras install docker
                 sudo service docker start
                 sudo usermod -a -G docker ec2-user
-                aws s3 sync s3://tow-falcon-app-bucket .
+                sudo yum install git -y
+                cd /home
+                sudo git clone https://github.com/tillyoswellwheeler/sensor_reading_project.git
                 
                 EOF
 
