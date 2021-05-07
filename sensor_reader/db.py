@@ -55,7 +55,7 @@ class Database:
         reading_ts
         FROM
         test_db.sensors
-        RIGHT JOIN test_db.readings ON sensors.id = readings.box_id
+        LEFT JOIN test_db.readings ON sensors.id = readings.box_id
         WHERE
         DATE(reading_ts) BETWEEN ({from_date}
         AND {to_date})
@@ -70,7 +70,7 @@ class Database:
         """.format(to_date=to_date, from_date=from_date, box_id=box_id)
 
         self.cursor.execute(query)
-        result = self.cursor.fetchone()
+        result = self.cursor.fetchall()
         if not result:
             self.__disconnect__()
             raise InvalidParameter("Box ID value not in database.")
